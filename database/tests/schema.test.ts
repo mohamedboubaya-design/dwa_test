@@ -5,10 +5,12 @@
  *   2. Reservation state-machine transitions (legal transitions and illegal rejections)
  *   3. fn_stock_status threshold boundaries (0, 5, 6)
  *   4. Completed-reservation rating guard and rating_avg cascade/NULL reset
+ *   5. Medicine search onDutyOnly filter (v_pharmacy_directory join)
  *
  * Usage: npm run db:test
  */
 import { pool } from '../client';
+import { searchMedicines } from '../queries/search';
 
 interface TestContext {
   userId: string;
@@ -338,6 +340,19 @@ async function testRatingGuardAndAverage(): Promise<void> {
 }
 
 // ---------------------------------------------------------------------------
+// Test 5: Medicine search onDutyOnly filter
+// ---------------------------------------------------------------------------
+async function testSearchOnDutyFilter(): Promise<void> {
+  console.log('\n🧪 Test 5: Medicine Search onDutyOnly Filter');
+  const response = await searchMedicines({ query: 'Paracetamol', onDutyOnly: true });
+  assert(response !== null && typeof response === 'object', 'searchMedicines with onDutyOnly: true returns a valid response object');
+  assert(Array.isArray(response.results), 'response.results is an array');
+  for (const r of response.results) {
+    assert(r.isOnDutyNow === true, `Result pharmacy ${r.pharmacyName} has isOnDutyNow=true`);
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Main test runner
 // ---------------------------------------------------------------------------
 async function runAllTests(): Promise<void> {
@@ -352,6 +367,7 @@ async function runAllTests(): Promise<void> {
     await testLastBoxRaceCondition();
     await testReservationStateMachine();
     await testRatingGuardAndAverage();
+    await testSearchOnDutyFilter();
 
     const elapsed = Date.now() - startTime;
     console.log('\n====================================================');

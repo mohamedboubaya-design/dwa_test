@@ -1,8 +1,8 @@
 # DWA Database Backup & Restore Verification Proof
 
 > **Target Environment:** Supabase PostgreSQL 15+ (PostGIS & pg_trgm)  
-> **Host:** \`aws-0-us-east-1.pooler.supabase.com:5432\`  
-> **Database:** \`postgres\` (Tenant: \`uisvfsyzyzotpcgyqall\`)  
+> **Host:** `aws-0-us-east-1.pooler.supabase.com:5432`  
+> **Database:** `postgres` (Tenant: `uisvfsyzyzotpcgyqall`)  
 > **Verification Date:** 2026-11-24  
 > **Verified By:** DWA Engineering Infrastructure Suite
 
@@ -12,13 +12,13 @@
 
 This document certifies that the **DWA Database Backup and Disaster Recovery System** (`database/scripts/backup.ts` and `database/scripts/restore.ts`) has been executed and verified against our live Supabase cloud database.
 
-The backup procedure extracts all 15 relational tables, active schema migrations, PostGIS spatial geometries (serialized into standard Well-Known Text \`WKT\` format), and sequence states into an immutable JSON snapshot.
+The backup procedure extracts all 15 relational tables, active schema migrations, PostGIS spatial geometries (serialized into standard Well-Known Text `WKT` format), and sequence states into an immutable JSON snapshot.
 
 ---
 
 ## 2. Backup Execution Proof (`npm run db:backup`)
 
-The backup command was executed using the shared pool singleton from \`database/client.ts\`:
+The backup command was executed using the shared pool singleton from `database/client.ts`:
 
 ```bash
 npm run db:backup

@@ -117,7 +117,7 @@ Simulates 200 concurrent spatial medicine searches combining `pg_trgm`, `ST_DWit
 npm run db:load-test
 ```
 
-The benchmark measures p50, p95, and p99 response times and saves a detailed report to [`docs/database/load-test-report.md`](file:///C:/Users/PC/DWA/docs/database/load-test-report.md).
+The benchmark measures p50, p95, and p99 response times and saves a detailed report to [`docs/database/load-test-report.md`](docs/database/load-test-report.md).
 
 ---
 
@@ -165,7 +165,7 @@ Truncates tables in reverse foreign-key order, batch-restores all records in dep
 
 ## Documentation
 
-- [Data Dictionary](file:///C:/Users/PC/DWA/docs/database/data-dictionary.md): Detailed specifications of all 15 tables, enums, views, and functions.
-- [Architecture Decision Records (ADRs)](file:///C:/Users/PC/DWA/docs/database/ADR.md): Formal documentation of the 5 core architectural decisions.
-- [Load Test Report](file:///C:/Users/PC/DWA/docs/database/load-test-report.md): 200-query latency and throughput verification report.
-- [Backup & Restore Proof](file:///C:/Users/PC/DWA/docs/database/backup-restore-proof.md): Verified backup and restore log.
+- [Data Dictionary](docs/database/data-dictionary.md): Detailed specifications of all 15 tables, enums, views, and functions.
+- [Architecture Decision Records (ADRs)](docs/database/ADR.md): Formal documentation of the 5 core architectural decisions.
+- [Load Test Report](docs/database/load-test-report.md): 200-query latency and throughput verification report.
+- [Backup & Restore Proof](docs/database/backup-restore-proof.md): Verified backup and restore log.

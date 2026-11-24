@@ -237,14 +237,11 @@ export async function searchMedicines(
         a.stock_status,
         a.batch_count,
         p.rating_avg,
-        CASE WHEN p.pro_plan_until > now() THEN true ELSE false END AS is_pro_active,
-        EXISTS (
-          SELECT 1 FROM pharmacy_on_duty_rotas r
-          WHERE r.pharmacy_id = p.id AND now() BETWEEN r.starts_at AND r.ends_at
-        ) AS is_on_duty_now
+        p.is_pro_active,
+        p.is_on_duty_now
       FROM v_pharmacy_medicine_availability a
       JOIN medicines m ON m.id = a.medicine_id
-      JOIN pharmacies p ON p.id = a.pharmacy_id
+      JOIN v_pharmacy_directory p ON p.id = a.pharmacy_id
       ${whereClause}
       ORDER BY
         ${geoOrder}
