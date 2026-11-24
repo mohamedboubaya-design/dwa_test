@@ -1,0 +1,28 @@
+{
+  "name": "dwa-database",
+  "version": "1.0.0",
+  "description": "DWA – Algerian pharmacy stock, reservation & prescription database layer",
+  "private": true,
+  "scripts": {
+    "db:migrate": "tsx db/scripts/migrate.ts",
+    "db:seed": "tsx db/seeds/seed.ts",
+    "db:backup": "tsx db/scripts/backup.ts",
+    "db:restore": "tsx db/scripts/restore.ts",
+    "db:load-test": "tsx db/tests/load-test.ts"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.119.0",
+    "algerian-geo": "^1.0.10",
+    "csv-parse": "^7.0.3",
+    "dotenv": "^18.0.9",
+    "pg": "^8.23.1",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "@types/pg": "^8.23.1",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}
