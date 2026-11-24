@@ -8,6 +8,7 @@
     "db:seed": "tsx db/seeds/seed.ts",
     "db:backup": "tsx db/scripts/backup.ts",
     "db:restore": "tsx db/scripts/restore.ts",
+    "db:test": "tsx db/tests/schema.test.ts",
     "db:load-test": "tsx db/tests/load-test.ts"
   },
   "dependencies": {

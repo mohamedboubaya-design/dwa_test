@@ -248,7 +248,7 @@ CREATE TABLE IF NOT EXISTS pharmacy_ratings (
   id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   patient_id      UUID NOT NULL REFERENCES users(id),
   pharmacy_id     UUID NOT NULL REFERENCES pharmacies(id),
-  reservation_id  UUID NOT NULL UNIQUE,         -- 1 review per completed reservation
+  reservation_id  UUID NOT NULL UNIQUE REFERENCES reservations(id) ON DELETE CASCADE, -- 1 review per completed reservation
   rating          SMALLINT NOT NULL
                     CONSTRAINT valid_rating CHECK (rating >= 1 AND rating <= 5),
   comment         TEXT,
@@ -334,15 +334,13 @@ RETURNS TRIGGER
 LANGUAGE plpgsql AS $$
 BEGIN
   UPDATE pharmacies
-  SET    rating_avg = sub.avg_rating,
+  SET    rating_avg = (
+           SELECT ROUND(AVG(rating)::numeric, 2)
+           FROM   pharmacy_ratings
+           WHERE  pharmacy_id = COALESCE(NEW.pharmacy_id, OLD.pharmacy_id)
+         ),
          updated_at = now()
-  FROM   (
-    SELECT pharmacy_id, ROUND(AVG(rating)::numeric, 2) AS avg_rating
-    FROM   pharmacy_ratings
-    WHERE  pharmacy_id = COALESCE(NEW.pharmacy_id, OLD.pharmacy_id)
-    GROUP  BY pharmacy_id
-  ) sub
-  WHERE  pharmacies.id = sub.pharmacy_id;
+  WHERE  id = COALESCE(NEW.pharmacy_id, OLD.pharmacy_id);
   RETURN NULL;
 END;
 $$;
@@ -386,11 +384,11 @@ BEGIN
   END IF;
 
   -- Legal transitions:
-  --   pending_payment  -> confirmed_held | cancelled
+  --   pending_payment  -> confirmed_held | cancelled | expired
   --   confirmed_held   -> ready_for_pickup | expired | cancelled
   --   ready_for_pickup -> completed | expired | cancelled
   -- Terminal states: completed, expired, cancelled
-  IF OLD.status = 'pending_payment'  AND NEW.status IN ('confirmed_held', 'cancelled') THEN RETURN NEW; END IF;
+  IF OLD.status = 'pending_payment'  AND NEW.status IN ('confirmed_held', 'cancelled', 'expired') THEN RETURN NEW; END IF;
   IF OLD.status = 'confirmed_held'   AND NEW.status IN ('ready_for_pickup', 'expired', 'cancelled') THEN RETURN NEW; END IF;
   IF OLD.status = 'ready_for_pickup' AND NEW.status IN ('completed', 'expired', 'cancelled') THEN RETURN NEW; END IF;
 
@@ -424,18 +422,23 @@ RETURNS UUID
 LANGUAGE plpgsql AS $$
 DECLARE
   v_available   INT;
+  v_expiry_date DATE;
   v_reservation UUID;
   v_pickup_code TEXT;
 BEGIN
   -- Lock the stock row to prevent race conditions
-  SELECT total_quantity - reserved_quantity
-  INTO   v_available
+  SELECT (total_quantity - reserved_quantity), expiry_date
+  INTO   v_available, v_expiry_date
   FROM   pharmacy_stock
   WHERE  id = p_stock_id AND pharmacy_id = p_pharmacy_id
   FOR UPDATE;
 
   IF v_available IS NULL THEN
     RAISE EXCEPTION 'Stock item % not found in pharmacy %', p_stock_id, p_pharmacy_id;
+  END IF;
+
+  IF v_expiry_date < CURRENT_DATE THEN
+    RAISE EXCEPTION 'Cannot reserve expired medication batch (expired %)', v_expiry_date;
   END IF;
 
   IF v_available < p_quantity THEN

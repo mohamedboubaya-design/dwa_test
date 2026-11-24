@@ -3,23 +3,9 @@
  * Runs SQL migration files against the Supabase PostgreSQL database.
  * Usage: npm run db:migrate
  */
-import { Pool } from 'pg';
+import { pool } from '../client';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as dotenv from 'dotenv';
-
-dotenv.config({ path: path.resolve(__dirname, '../../.env') });
-
-const DATABASE_URL = process.env.DATABASE_URL;
-if (!DATABASE_URL) {
-  console.error('❌ DATABASE_URL not found in .env');
-  process.exit(1);
-}
-
-const pool = new Pool({
-  connectionString: DATABASE_URL,
-  ssl: { rejectUnauthorized: false },
-});
 
 async function runMigrations(): Promise<void> {
   const migrationsDir = path.resolve(__dirname, '../migrations');

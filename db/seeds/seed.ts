@@ -9,21 +9,12 @@
  *
  * Usage: npm run db:seed
  */
-import { Pool, PoolClient } from 'pg';
+import { PoolClient } from 'pg';
+import { pool } from '../client';
 import * as path from 'path';
 import * as dotenv from 'dotenv';
 
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
-
-// ── Config ──────────────────────────────────────────────────────────────
-const DATABASE_URL = process.env.DATABASE_URL;
-if (!DATABASE_URL) { console.error('❌ DATABASE_URL not set'); process.exit(1); }
-
-const pool = new Pool({
-  connectionString: DATABASE_URL,
-  ssl: { rejectUnauthorized: false },
-  max: 5,
-});
 
 // ── Helpers ─────────────────────────────────────────────────────────────
 function generateEAN13(index: number): string {
@@ -275,7 +266,7 @@ async function seed() {
       // Link all pairs (bidirectional)
       for (let i = 0; i < ids.length; i++) {
         for (let j = i + 1; j < ids.length; j++) {
-          const offset = equivBatchPlaceholders.length * 3;
+          const offset = equivBatchValues.length;
           equivBatchPlaceholders.push(`($${offset + 1}, $${offset + 2}, 'exact_generic')`);
           equivBatchValues.push(ids[i], ids[j]);
           equivBatchPlaceholders.push(`($${offset + 3}, $${offset + 4}, 'exact_generic')`);
