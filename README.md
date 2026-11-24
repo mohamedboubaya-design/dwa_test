@@ -165,6 +165,7 @@ Truncates tables in reverse foreign-key order, batch-restores all records in dep
 
 ## Documentation
 
+- [Entity-Relationship Diagram (ERD)](database/schema/ERD-pharma-complete.drawio): Complete visual Draw.io schema diagram for all 15 tables, enums, views, and PostGIS geometry columns.
 - [Data Dictionary](docs/database/data-dictionary.md): Detailed specifications of all 15 tables, enums, views, and functions.
 - [Architecture Decision Records (ADRs)](docs/database/ADR.md): Formal documentation of the 5 core architectural decisions.
 - [Load Test Report](docs/database/load-test-report.md): 200-query latency and throughput verification report.
