@@ -1,5 +1,5 @@
 /**
- * db/client.ts
+ * database/client.ts
  * Centralized PostgreSQL client pool for DWA.
  * Exports a single shared pg.Pool singleton configured for Supabase with SSL.
  */

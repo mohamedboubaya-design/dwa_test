@@ -1,5 +1,5 @@
 /**
- * db/scripts/restore.ts
+ * database/scripts/restore.ts
  * Restores the DWA PostgreSQL database from a backup JSON archive.
  * Truncates tables in reverse dependency order, inserts records in forward
  * foreign-key dependency order, handles PostGIS geographies, and verifies counts.

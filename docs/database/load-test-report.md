@@ -3,7 +3,7 @@
 > **Target:** Under 300 ms for concurrent spatial medicine searches  
 > **Environment:** Supabase PostgreSQL 15+ (PostGIS & pg_trgm)  
 > **Date:** 2026-11-24T15:11:38.576Z  
-> **Test Harness:** `db/tests/load-test.ts`
+> **Test Harness:** `database/tests/load-test.ts`
 
 ---
 
@@ -67,7 +67,7 @@ The < 300 ms target is achieved through specialized indexing strategies deployed
 3. **`idx_pharmacy_stock_med_pharm_expiry` (`pharmacy_stock(medicine_id, pharmacy_id, expiry_date)`)**:
    Powers the aggregation in `v_pharmacy_medicine_availability` by quickly locating active batches while discarding expired inventory (`expiry_date >= CURRENT_DATE`).
 
-4. **Connection Pooler (`db/client.ts`)**:
+4. **Connection Pooler (`database/client.ts`)**:
    Maintains pre-warmed connections with SSL connection reuse to minimize TCP/TLS handshake overhead.
 
 ---

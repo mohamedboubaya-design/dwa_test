@@ -1,5 +1,5 @@
 /**
- * db/queries/analytics.ts
+ * database/queries/analytics.ts
  * Pharmacist unmet demand analytics queries powered by v_unmet_demand
  * and underlying search_logs. Helps pharmacy owners and health authorities
  * identify medicine shortages, search spikes, and regional demand patterns.

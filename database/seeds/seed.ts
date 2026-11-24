@@ -1,5 +1,5 @@
 /**
- * db/seeds/seed.ts
+ * database/seeds/seed.ts
  * Seeds the DWA database with:
  *   1. 5,425 official Algerian medicines from the Ministry Nomenclature Excel
  *   2. Medicine equivalents (same DCI = exact_generic)
@@ -69,7 +69,13 @@ interface MedicineRow {
 function parseMedicinesFromExcel(): MedicineRow[] {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const XLSX = require('xlsx');
-  const filePath = path.resolve(__dirname, '../../database/seeds/clean_NOMENCLATURE.VERSION.AOUT_.2026-.xlsx');
+  const candidatePaths = [
+    path.resolve(__dirname, 'clean_NOMENCLATURE.VERSION.AOUT_.2026-.xlsx'),
+    path.resolve(__dirname, './clean_NOMENCLATURE.VERSION.AOUT_.2026-.xlsx'),
+    path.resolve(process.cwd(), 'database/seeds/clean_NOMENCLATURE.VERSION.AOUT_.2026-.xlsx')
+  ];
+  const fs = require('fs');
+  const filePath = candidatePaths.find(p => fs.existsSync(p)) || candidatePaths[0];
   console.log(`📄 Reading Excel: ${filePath}`);
 
   const wb = XLSX.readFile(filePath);

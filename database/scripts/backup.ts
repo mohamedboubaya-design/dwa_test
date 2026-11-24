@@ -1,5 +1,5 @@
 /**
- * db/scripts/backup.ts
+ * database/scripts/backup.ts
  * Backs up the entire DWA PostgreSQL database into a portable JSON archive.
  * Preserves all schemas, relationships, UUIDs, ENUMs, and PostGIS geometries.
  *

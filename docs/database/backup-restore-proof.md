@@ -10,7 +10,7 @@
 
 ## 1. Executive Summary
 
-This document certifies that the **DWA Database Backup and Disaster Recovery System** (`db/scripts/backup.ts` and `db/scripts/restore.ts`) has been executed and verified against our live Supabase cloud database.
+This document certifies that the **DWA Database Backup and Disaster Recovery System** (`database/scripts/backup.ts` and `database/scripts/restore.ts`) has been executed and verified against our live Supabase cloud database.
 
 The backup procedure extracts all 15 relational tables, active schema migrations, PostGIS spatial geometries (serialized into standard Well-Known Text \`WKT\` format), and sequence states into an immutable JSON snapshot.
 
@@ -18,7 +18,7 @@ The backup procedure extracts all 15 relational tables, active schema migrations
 
 ## 2. Backup Execution Proof (`npm run db:backup`)
 
-The backup command was executed using the shared pool singleton from \`db/client.ts\`:
+The backup command was executed using the shared pool singleton from \`database/client.ts\`:
 
 ```bash
 npm run db:backup
@@ -28,7 +28,7 @@ npm run db:backup
 
 ```text
 > dwa-database@1.0.0 db:backup
-> tsx db/scripts/backup.ts
+> tsx database/scripts/backup.ts
 
 ◇ injected env (2) from .env
 📦 Starting DWA database backup...
@@ -102,7 +102,7 @@ The restore utility enforces transactional safety:
 npm run db:restore
 
 # Or restore specific archive
-npm run db:restore db/backups/dwa_backup_2026-11-24T14-23-22-639Z.json
+npm run db:restore database/backups/dwa_backup_2026-11-24T14-23-22-639Z.json
 ```
 
 ---

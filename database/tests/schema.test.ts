@@ -1,5 +1,5 @@
 /**
- * db/tests/schema.test.ts
+ * database/tests/schema.test.ts
  * Comprehensive database schema, constraints, and concurrency tests:
  *   1. Last-box race condition (Promise.allSettled concurrency test on fn_create_reservation)
  *   2. Reservation state-machine transitions (legal transitions and illegal rejections)

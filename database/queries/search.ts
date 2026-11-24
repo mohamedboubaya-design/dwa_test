@@ -1,5 +1,5 @@
 /**
- * db/queries/search.ts
+ * database/queries/search.ts
  * Parameterized medicine search module with pg_trgm fuzzy matching,
  * PostGIS spatial proximity (ST_DWithin, ST_Distance), stock filtering,
  * generic equivalents fallback, and search logging into search_logs.

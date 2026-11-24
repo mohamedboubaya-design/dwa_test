@@ -4,12 +4,12 @@
   "description": "DWA – Algerian pharmacy stock, reservation & prescription database layer",
   "private": true,
   "scripts": {
-    "db:migrate": "tsx db/scripts/migrate.ts",
-    "db:seed": "tsx db/seeds/seed.ts",
-    "db:backup": "tsx db/scripts/backup.ts",
-    "db:restore": "tsx db/scripts/restore.ts",
-    "db:test": "tsx db/tests/schema.test.ts",
-    "db:load-test": "tsx db/tests/load-test.ts"
+    "db:migrate": "tsx database/scripts/migrate.ts",
+    "db:seed": "tsx database/seeds/seed.ts",
+    "db:backup": "tsx database/scripts/backup.ts",
+    "db:restore": "tsx database/scripts/restore.ts",
+    "db:test": "tsx database/tests/schema.test.ts",
+    "db:load-test": "tsx database/tests/load-test.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",

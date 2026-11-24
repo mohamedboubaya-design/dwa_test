@@ -54,12 +54,12 @@ All database operations are managed via TypeScript scripts using `tsx`:
 
 | Command | Script | Description |
 |---|---|---|
-| `npm run db:migrate` | `db/scripts/migrate.ts` | Runs incremental SQL migrations (`001_initial_schema.sql`, `002_fixes.sql`) |
-| `npm run db:seed` | `db/seeds/seed.ts` | Seeds 5,425 medicines, 17,000+ equivalents, 500 pharmacies, stock batches, and logs |
-| `npm run db:test` | `db/tests/schema.test.ts` | Concurrency, race condition, state machine, and rating trigger test suite |
-| `npm run db:load-test` | `db/tests/load-test.ts` | 200 concurrent spatial search load test measuring p50, p95, p99 latencies (< 300ms SLA) |
-| `npm run db:backup` | `db/scripts/backup.ts` | Dumps database tables and PostGIS geometries into a portable JSON snapshot |
-| `npm run db:restore` | `db/scripts/restore.ts` | Restores database tables in strict dependency order and verifies row integrity |
+| `npm run db:migrate` | `database/scripts/migrate.ts` | Runs incremental SQL migrations (`001_initial_schema.sql`, `002_fixes.sql`) |
+| `npm run db:seed` | `database/seeds/seed.ts` | Seeds 5,425 medicines, 17,000+ equivalents, 500 pharmacies, stock batches, and logs |
+| `npm run db:test` | `database/tests/schema.test.ts` | Concurrency, race condition, state machine, and rating trigger test suite |
+| `npm run db:load-test` | `database/tests/load-test.ts` | 200 concurrent spatial search load test measuring p50, p95, p99 latencies (< 300ms SLA) |
+| `npm run db:backup` | `database/scripts/backup.ts` | Dumps database tables and PostGIS geometries into a portable JSON snapshot |
+| `npm run db:restore` | `database/scripts/restore.ts` | Restores database tables in strict dependency order and verifies row integrity |
 
 ---
 
@@ -127,7 +127,7 @@ The benchmark measures p50, p95, and p99 response times and saves a detailed rep
 ```bash
 npm run db:backup
 ```
-Dumps all 15 relational tables, PostGIS WKT spatial coordinates, and foreign key dependencies into `db/backups/latest.json`.
+Dumps all 15 relational tables, PostGIS WKT spatial coordinates, and foreign key dependencies into `database/backups/latest.json`.
 
 ### Restoring from Backup
 ```bash
@@ -139,9 +139,9 @@ Truncates tables in reverse foreign-key order, batch-restores all records in dep
 
 ## Query Modules Reference
 
-- **Medicine Search** (`db/queries/search.ts`):
+- **Medicine Search** (`database/queries/search.ts`):
   ```typescript
-  import { searchMedicines } from './db/queries/search';
+  import { searchMedicines } from './database/queries/search';
 
   const results = await searchMedicines({
     query: 'Doliprane',
@@ -153,9 +153,9 @@ Truncates tables in reverse foreign-key order, batch-restores all records in dep
   });
   ```
 
-- **Unmet Demand Analytics** (`db/queries/analytics.ts`):
+- **Unmet Demand Analytics** (`database/queries/analytics.ts`):
   ```typescript
-  import { getUnmetDemand, getWilayaDemandSummary } from './db/queries/analytics';
+  import { getUnmetDemand, getWilayaDemandSummary } from './database/queries/analytics';
 
   const shortages = await getUnmetDemand({ wilaya: 'Alger', minSearches: 5 });
   const nationalSummary = await getWilayaDemandSummary();

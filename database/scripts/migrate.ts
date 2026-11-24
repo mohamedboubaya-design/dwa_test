@@ -1,5 +1,5 @@
 /**
- * db/scripts/migrate.ts
+ * database/scripts/migrate.ts
  * Runs SQL migration files against the Supabase PostgreSQL database.
  * Usage: npm run db:migrate
  */
